@@ -346,7 +346,8 @@ describe("US-01 - Create and list reservations", () => {
       const response = await request(app)
         .post("/reservations")
         .set("Accept", "application/json")
-        .send({ data });
+        .send({ data });  
+        console.log(response.body)
 
       expect(response.body.error).toBeUndefined();
       expect(response.body.data).toEqual(

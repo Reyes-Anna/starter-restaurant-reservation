@@ -13,7 +13,22 @@ import NewReservation from "./NewReservation";
  *
  * @returns {JSX.Element}
  */
+
+import { useState } from "react";
+
 function Routes() {
+
+  const initalReservationFormState = {
+    firstName: "",
+    lastName: "",
+    mobileNumber: "",
+    reservationDate: "",
+    reservationTime: "",
+    people: "",
+}
+
+  const [newReservation, setNewReservation] = useState(initalReservationFormState)
+
   return (
     <Switch>
       <Route exact={true} path="/">
@@ -26,7 +41,7 @@ function Routes() {
         <Dashboard date={today()} />
       </Route>
       <Route exact={true} path ="/reservations/new">
-        <NewReservation />
+        <NewReservation newReservation= {newReservation} setNewReservation={setNewReservation}/>
       </Route>
       <Route>
         <NotFound />
