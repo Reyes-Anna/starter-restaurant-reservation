@@ -18,7 +18,7 @@ const VALID_PROPERTIES = [
 const hasRequiredProperties = hasProperties(VALID_PROPERTIES)
 
 function hasOnlyValidProperties(req, res, next) {
-  const { data = {} } = req.asyncErrorBoundary
+  const { data = {} } = req.body
 
   const invalidFields = Object.keys(data).filter((field) => !VALID_PROPERTIES.includes(field))
 
@@ -47,10 +47,10 @@ function reservationExists(req, res, next) {
   }
 
 
-async function list(req, res) {
-  const data = await service.list()
-  res.json({data});
-}
+// async function list(req, res) {
+//   const data = await service.list()
+//   res.json({data});
+// }
 
 
 async function create(req, res) {
@@ -58,6 +58,12 @@ async function create(req, res) {
   console.log(data)
     res.status(201).json({ data })
 
+}
+
+async function list(req, res) {
+  const reservationDate = req.query.date
+  const data = await service.listReservationsByTime(reservationDate)
+  res.json({ data }) 
 }
 
 module.exports = {

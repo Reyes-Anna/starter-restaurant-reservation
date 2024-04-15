@@ -13,11 +13,18 @@ function create(newReservation) {
     return knex("reservations")
     .insert(newReservation)
     .select("*")
-    .then((createdRecords) => createdRecords[0])
+}
+
+function listReservationsByTime(reservationDate) {
+    return knex("reservations")
+    .select("*")
+    .where({ "reservation_date": reservationDate })
+    .orderBy("reservation_time")
 }
 
 module.exports = {
     list,
+    listReservationsByTime,
     read,
     create,
 }
