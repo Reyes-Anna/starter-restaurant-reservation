@@ -11,13 +11,12 @@ function read(reservation_id) {
 
 function create(newReservation) {
     return knex("reservations")
-    .insert(newReservation)
-    .select("*")
+    .insert(newReservation, "*")
+    .then((createReservation) => createReservation[0])
 }
 
 function listReservationsByTime(reservationDate) {
     return knex("reservations")
-    .select("*")
     .where({ "reservation_date": reservationDate })
     .orderBy("reservation_time")
 }

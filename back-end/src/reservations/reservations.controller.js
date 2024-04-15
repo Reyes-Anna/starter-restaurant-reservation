@@ -15,7 +15,39 @@ const VALID_PROPERTIES = [
   "people"
 ]
 
-const hasRequiredProperties = hasProperties(VALID_PROPERTIES)
+const hasRequiredProperties = hasProperties(
+  "first_name",
+  "last_name",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+  "people"
+)
+
+function hasValidProperties(req, res, next) {
+  const {reservation_date, reservation_time, people} = req.body.data
+  if(!Number.isInteger(people) || people < 1) {
+    return next({
+      status: 400,
+      message: "people is not a valid number",
+    })
+  }
+  const dateFormat = /^\d{4}\-\d{1,2}\-\d{1,2}$/
+  if(!reservation_date.match(dateFormat)) {
+    return next({
+      status:400,
+      message: "reservation_date does not match the correct date format",
+    })
+  }
+  const timeFormat = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/
+  if(!reservation_time.match(timeFormat)) {
+    return next({
+      status:400,
+      message: "reservation_time does not match the correct time format",
+    })
+  }
+  next()
+}
 
 function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body
@@ -55,7 +87,6 @@ function reservationExists(req, res, next) {
 
 async function create(req, res) {
   const data = await service.create(req.body.data)
-  console.log(data)
     res.status(201).json({ data })
 
 }
@@ -63,10 +94,11 @@ async function create(req, res) {
 async function list(req, res) {
   const reservationDate = req.query.date
   const data = await service.listReservationsByTime(reservationDate)
+  console.log(data)
   res.json({ data }) 
 }
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
-  create: [hasOnlyValidProperties, hasRequiredProperties, asyncErrorBoundary(create)],
+  create: [ hasOnlyValidProperties, hasRequiredProperties, hasValidProperties, asyncErrorBoundary(create)],
 };
