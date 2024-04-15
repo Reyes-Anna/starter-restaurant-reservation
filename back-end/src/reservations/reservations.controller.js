@@ -78,12 +78,33 @@ function reservationExists(req, res, next) {
   .catch(next)
   }
 
-
-// async function list(req, res) {
-//   const data = await service.list()
-//   res.json({data});
-// }
-
+  function validateDate(req, res, next) {
+    const { data = {} } = req.body;
+    const date = data["reservation_date"];
+    const time = data["reservation_time"];
+    const formattedDate = new Date(`${date}T${time}`);
+    const day = new Date(date).getUTCDay();
+  
+    if (isNaN(Date.parse(data["reservation_date"]))) {
+      return next({
+        status: 400,
+        message: `Invalid reservation_date`,
+      });
+    }
+    if (day === 2) {
+      return next({
+        status: 400,
+        message: `Restaurant is closed on Tuesdays`,
+      });
+    }
+    if (formattedDate <= new Date()) {
+      return next({
+        status: 400,
+        message: `Reservation must be in the future`,
+      });
+    }
+    next();
+  }
 
 async function create(req, res) {
   const data = await service.create(req.body.data)
@@ -91,14 +112,22 @@ async function create(req, res) {
 
 }
 
-async function list(req, res) {
-  const reservationDate = req.query.date
-  const data = await service.listReservationsByTime(reservationDate)
-  console.log(data)
-  res.json({ data }) 
-}
+  async function list(req, res) {
+    let data;
+  
+    if (req.query.date) {
+      data = await service.list(req.query.date);
+     } 
+     else {
+      data = await service.search(req.query.mobile_number);
+    }
+    console.log("data", data)
+    res.json({ data });
+
+  }
+
 
 module.exports = {
-  list: [asyncErrorBoundary(list)],
-  create: [ hasOnlyValidProperties, hasRequiredProperties, hasValidProperties, asyncErrorBoundary(create)],
+  list: [validateDate, list],
+  create: [ hasOnlyValidProperties, hasRequiredProperties, hasValidProperties, validateDate, asyncErrorBoundary(create)],
 };
