@@ -128,6 +128,6 @@ async function create(req, res) {
 
 
 module.exports = {
-  list: [validateDate, list],
+  list,
   create: [ hasOnlyValidProperties, hasRequiredProperties, hasValidProperties, validateDate, asyncErrorBoundary(create)],
 };
