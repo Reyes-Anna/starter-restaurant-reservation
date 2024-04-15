@@ -12,11 +12,11 @@ function create(newReservation) {
     .then((createReservation) => createReservation[0])
 }
 
-function list(reservation_date) {
+function list(date) {
     console.log("reservation date", reservation_date)
     return knex("reservations")
       .select("*")
-      .where({ reservation_date })
+      .where({ "reservation_date": date })
       .whereNot({ status: "finished" })
       .orderBy("reservation_time");
   }
