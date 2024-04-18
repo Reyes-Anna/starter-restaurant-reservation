@@ -78,7 +78,7 @@ function reservationExists(req, res, next) {
   .catch(next)
   }
 
-  function validateDate(req, res, next) {
+  function validateDateAndTime(req, res, next) {
     const { data = {} } = req.body;
     const date = data["reservation_date"];
     const time = data["reservation_time"];
@@ -103,6 +103,16 @@ function reservationExists(req, res, next) {
         message: `Reservation must be in the future`,
       });
     }
+    console.log(time.split(":"))
+    const timeParts = time.split(":")
+    if(timeParts[0] <= 10 || timeParts[0] >= 22) {
+      return next({
+        status: 400,
+        message: "Reservations can only be made between 10:30AM and 9:30PM"
+      })
+
+
+    }
     next();
   }
 
@@ -113,21 +123,31 @@ async function create(req, res) {
 }
 
   async function list(req, res) {
+    const { date, mobile_number} = req.query
     let data;
   
-    if (req.query.date) {
-      data = await service.list(req.query.date);
+    if (date) {
+      data = await service.listByDate(date);
      } 
-     else {
-      data = await service.search(req.query.mobile_number);
+     else if(mobile_number) {
+      data = await service.search(mobile_number);
+    } 
+    else {
+      data = await service.list()
     }
     console.log("data", data)
     res.json({ data });
-
   }
 
 
 module.exports = {
   list,
-  create: [ hasOnlyValidProperties, hasRequiredProperties, hasValidProperties, validateDate, asyncErrorBoundary(create)],
+  //read: [reservationExists, asyncErrorBoundary(read)],
+  create: [ 
+    hasOnlyValidProperties, 
+    hasRequiredProperties, 
+    hasValidProperties, 
+    validateDateAndTime, 
+    asyncErrorBoundary(create)
+  ],
 };
