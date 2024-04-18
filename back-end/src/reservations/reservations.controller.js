@@ -84,7 +84,8 @@ function reservationExists(req, res, next) {
     const time = data["reservation_time"];
     const formattedDate = new Date(`${date}T${time}`);
     const day = new Date(date).getUTCDay();
-  
+    const timeParts = time.split(":").join("")
+   
     if (isNaN(Date.parse(data["reservation_date"]))) {
       return next({
         status: 400,
@@ -103,17 +104,15 @@ function reservationExists(req, res, next) {
         message: `Reservation must be in the future`,
       });
     }
-    console.log(time.split(":"))
-    const timeParts = time.split(":")
-    if(timeParts[0] <= 10 || timeParts[0] >= 22) {
+  
+    if(timeParts < "1030" || timeParts > "2230") {
       return next({
         status: 400,
         message: "Reservations can only be made between 10:30AM and 9:30PM"
       })
-
-
     }
     next();
+
   }
 
 async function create(req, res) {
