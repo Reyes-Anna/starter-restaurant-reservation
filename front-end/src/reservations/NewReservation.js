@@ -15,7 +15,7 @@ function NewReservation() {
     
     }
 
-    const [newReservation, setNewReservation] = useState(initialReservationFormState);
+    const [newReservation, setNewReservation] = useState({...initialReservationFormState});
 
    
     const submitHandler = async (event) => {
@@ -25,9 +25,18 @@ function NewReservation() {
     history.push("/dashboard")
     }
 
-    const changeHandler = ({ target }) => {
-    setNewReservation({ ...newReservation, [target.name]: target.value })
-    }
+    // const changeHandler = ({ target }) => {
+    // setNewReservation({ ...newReservation, [target.name]: target.value })
+    // }
+    const changeHandler = (e) => {
+        if (e.target.name === "people") {
+          setNewReservation({ ...newReservation,
+            [e.target.name]: Number(e.target.value),
+          });
+        } else {
+         setNewReservation({ ...newReservation, [e.target.name]: e.target.value })
+        }
+      }
 
     return (
         <form onSubmit= {submitHandler}>

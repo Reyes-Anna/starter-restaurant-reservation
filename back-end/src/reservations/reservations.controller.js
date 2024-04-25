@@ -24,15 +24,19 @@ const hasRequiredProperties = hasProperties(
   "people",
 )
 
+function validPeople(req, res, next) {
+  const people = req.body.data.people;
+  if(people && people > 0 && typeof people === "number") {
+    return next()
+  }
+  next({
+    status: 400,
+    message: `number of people is required`
+  })
+}
 
 function hasValidProperties(req, res, next) {
-  const {reservation_date, reservation_time, people} = req.body.data
-  if(!Number.isInteger(people) || people < 1) {
-    return next({
-      status: 400,
-      message: `${people} people is not a valid number`,
-    })
-  }
+  const {reservation_date, reservation_time} = req.body.data
   const dateFormat = /^\d{4}\-\d{1,2}\-\d{1,2}$/
   if(!reservation_date.match(dateFormat)) {
     return next({
@@ -189,7 +193,8 @@ module.exports = {
   list: [asyncErrorBoundary(list)],
   read: [reservationExists, asyncErrorBoundary(read)],
   create: [ 
-    hasOnlyValidProperties, 
+    hasOnlyValidProperties,
+    validPeople, 
     hasRequiredProperties, 
     hasValidProperties, 
     validateDateAndTime,
