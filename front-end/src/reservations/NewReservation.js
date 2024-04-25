@@ -22,78 +22,84 @@ const changeHandler = ({ target }) => {
             <div className="form-group">
                 <label htmlFor="first_name">First Name</label>
                 <input 
-                    type="first_name" 
+                    type="first_name"
+                    name="first_name" 
                     className="form-control" 
                     id="first_name" 
                     value={newReservation.first_name}
                     onChange={changeHandler}
                     placeholder="First Name"
-                    required
+                    //required
                 />
             </div>
             <div className="form-group">
                 <label htmlFor="last_name">Last Name</label>
                 <input 
-                    type="last_name" 
+                    type="last_name"
+                    name="last_name" 
                     className="form-control" 
                     id="last_name" 
                     value={newReservation.last_name}
                     onChange={changeHandler}
                     placeholder="Last Name"
-                    required
+                    //required
                 />
             </div>
             <div className="form-group">
                 <label htmlFor="moblie_number">Mobile Number</label>
                 <input 
                     type="tel" 
+                    name="mobile_number"
                     className="form-control" 
                     id="mobile_number" 
                     value={newReservation.mobile_number}
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     onChange={changeHandler}
                     placeholder="xxx-xxx-xxxx"
-                    required
+                    //required
                 />
             </div>
             <div className="form-group">
                 <label htmlFor="reservation_date">Reservation Date</label>
                 <input 
                     type="date" 
+                    name="reservation_date"
                     className="form-control" 
                     id="reservation_date"
                     value={newReservation.reservation_date}
                     onChange={changeHandler} 
                     placeholder="YYYY-MM-DD" 
                     pattern="\d{4}-\d{2}-\d{2}"
-                    required
+                    //required
                 />
             </div>
 
             <div className="form-group">
                 <label htmlFor="reservation_time">Reservation Time</label>
                 <input 
-                    type="time" 
+                    type="time"
+                    name ="reservation_time" 
                     className="form-control" 
                     id="reservation_time"
                     value={newReservation.reservation_time}
                     onChange={changeHandler}
                     placeholder="HH:MM" 
                     pattern="[0-9]{2}:[0-9]{2}"
-                    required
+                    //required
                 />
             </div>
             <div className="form-group">
-                <label for="people">Number of People in the Party</label>
+                <label htmlFor="people">Number of People in the Party</label>
                 <input 
                     type="number"
-                    min = "1"
-                    max = "10"
+                    name= "people"
+                    min = {1}
                     className="form-control" 
                     id="people"
                     value={newReservation.people}
                     onChange={changeHandler}
-                    required
+                    placeholder={1}
+                    //required
                     />
             </div>
             <div className="d-grid gap-2 d-md-flex mb-4">
