@@ -1,21 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { createReservation } from "../utils/api";
 
-function NewReservation({newReservation, setNewReservation}) {
+function NewReservation() {
     const history = useHistory()
 
+    const initialReservationFormState = {
+        first_name: "",
+        last_name: "",
+        mobile_number: "",
+        reservation_date: "",
+        reservation_time: "",
+        people: 1,
+    
+    }
 
+    const [newReservation, setNewReservation] = useState(initialReservationFormState);
 
-const submitHandler = async (event) => {
+   
+    const submitHandler = async (event) => {
     event.preventDefault()
     await createReservation(newReservation)
+        .then(console.log("submitted"))
     history.push("/dashboard")
-}
+    }
 
-const changeHandler = ({ target }) => {
+    const changeHandler = ({ target }) => {
     setNewReservation({ ...newReservation, [target.name]: target.value })
-}
+    }
 
     return (
         <form onSubmit= {submitHandler}>
@@ -98,7 +110,7 @@ const changeHandler = ({ target }) => {
                     id="people"
                     value={newReservation.people}
                     onChange={changeHandler}
-                    placeholder={1}
+                    placeholder= {1}
                     //required
                     />
             </div>

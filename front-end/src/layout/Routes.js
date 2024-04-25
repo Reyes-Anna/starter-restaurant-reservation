@@ -18,17 +18,6 @@ import { useState } from "react";
 
 function Routes() {
 
-  const initialReservationFormState = {
-    first_name: "",
-    last_name: "",
-    mobile_number: "",
-    reservation_date: "",
-    reservation_time: "",
-    people: 1,
-
-}
-
-  const [newReservation, setNewReservation] = useState(initialReservationFormState);
   const [date, setDate] = useState(today());
 
   return (
@@ -43,7 +32,7 @@ function Routes() {
         <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route exact={true} path ="/reservations/new">
-        <NewReservation newReservation= {newReservation} setNewReservation={setNewReservation}/>
+        <NewReservation />
       </Route>
       <Route>
         <NotFound />
