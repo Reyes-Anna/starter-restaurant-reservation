@@ -1,13 +1,14 @@
-import React from "react";
+import React, {useState}from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
-import { today } from "../utils/date-time";
+
 import NewReservation from "../reservations/NewReservation";
 import EditReservation from "../reservations/EditReservation"
 import SeatReservation from "../reservations/SeatReservation"
 import NewTable from "../tables/NewTable"
-import Search from "../search/Search"
+import SearchReservation from "../reservations/SearchReservation"
+
 
 /**
  * Defines all the routes for the application.
@@ -19,6 +20,8 @@ import Search from "../search/Search"
 
 
 function Routes() {
+  const [date, setDate] = useState()
+
   return (
     <Switch>
       <Route exact={true} path="/">
@@ -28,7 +31,7 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={today()} />
+        <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route exact={true} path ="/reservations/new">
         <NewReservation />
@@ -43,7 +46,7 @@ function Routes() {
         <NewTable />
       </Route>
       <Route path="/search">
-        <Search />
+        <SearchReservation />
       </Route>
       <Route>
         <NotFound />
