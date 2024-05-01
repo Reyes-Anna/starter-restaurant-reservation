@@ -53,9 +53,10 @@ function Dashboard({ date, setDate }) {
       <h1>Dashboard</h1>
       <div>
         <h4 className="mb-2">Reservations for {date}</h4>
-        <div id="reservationGrid" >
-            {reservations.map((reservation) => (
+        <div id="reservationCard" >
+            {reservations.map((reservation, index) => (
               <ListReservation 
+                key={index}
                 reservation={reservation}
                 setReservationsError={setReservationsError}
                 loadDashboard={loadDashboard}

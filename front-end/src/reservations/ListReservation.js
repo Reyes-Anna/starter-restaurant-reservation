@@ -12,16 +12,16 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
     }
 
     return (
-        <div class="card mb-4" key={reservation.reservation_id}>
-                    <div class="card-header py-3"></div>
-                    <div class="card-body">
-                        <h5 class="card-title">{reservation.first_name} {reservation.last_name}</h5>
-                        <p class="card-text">Reservation Date: {reservation.reservation_date}</p>
-                        <p class="card-text">Reservation Time: {reservation.reservation_time}</p>
-                        <p class="card-text">Mobile Number: {reservation.mobile_number}</p>
-                        <p class="card-text">Party Size: {reservation.people}</p>
+        <div className="card mb-4" key={reservation.reservation_id}>
+                    <div className="card-header py-3"></div>
+                    <div className="card-body">
+                        <h5 className="card-title">{reservation.first_name} {reservation.last_name}</h5>
+                        <p className="card-text">Reservation Date: {reservation.reservation_date}</p>
+                        <p className="card-text">Reservation Time: {reservation.reservation_time}</p>
+                        <p className="card-text">Mobile Number: {reservation.mobile_number}</p>
+                        <p className="card-text">Party Size: {reservation.people}</p>
                         <button 
-                            class="btn btn-danger mx-1 px-3"
+                            className="btn btn-danger mx-1 px-3"
                             data-reservation-id-cancel={reservation.reservation_id}
                             onClick={cancelHandler}
                             >

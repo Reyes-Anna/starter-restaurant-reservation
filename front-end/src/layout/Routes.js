@@ -1,8 +1,7 @@
-import React, {useState}from "react";
+import React, {useState} from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
-
 import NewReservation from "../reservations/NewReservation";
 import EditReservation from "../reservations/EditReservation"
 import SeatReservation from "../reservations/SeatReservation"
@@ -21,6 +20,21 @@ import SearchReservation from "../reservations/SearchReservation"
 
 function Routes() {
   const [date, setDate] = useState()
+  const [newError, setNewError] = useState(false);
+
+  function formatDate(date) {
+    let formattedDate = date.split("");
+    formattedDate.splice(10);
+    formattedDate = formattedDate.join("")
+    return formattedDate;
+}
+
+function formatTime(time) {
+    let formattedTime = time.split("");
+    formattedTime.splice(5);
+    formattedTime = formattedTime.join("");
+    return formattedTime
+}
 
   return (
     <Switch>
@@ -34,10 +48,18 @@ function Routes() {
         <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route exact={true} path ="/reservations/new">
-        <NewReservation />
+        <NewReservation 
+          formatDate={formatDate}
+          formatTime={formatTime}
+          newError={newError} 
+          setNewError={setNewError}/>
       </Route>
       <Route path="/reservations/:reservation_id/edit">
-        <EditReservation />
+        <EditReservation
+          formatDate={formatDate}
+          formatTime={formatTime} 
+          newError={newError} 
+          setNewError={setNewError}/>
       </Route>
       <Route path="/reservations/:reservation_id/seat">
         <SeatReservation />
@@ -46,7 +68,7 @@ function Routes() {
         <NewTable />
       </Route>
       <Route path="/search">
-        <SearchReservation />
+        <SearchReservation newError={newError} setNewError={setNewError}/>
       </Route>
       <Route>
         <NotFound />
