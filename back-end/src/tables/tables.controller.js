@@ -41,16 +41,16 @@ const hasRequiredProperties = hasProperties(
     }
 
 async function reservationExists(req, res, next) {
-    const { reservation_id } = req.params
+    const { reservation_id } = req.body.data
     const reservation = await service.readReservationId(reservation_id)
     if(reservation) {
         res.locals.reservation = reservation
+        return next()
     }
     next({
         status:404,
         message: `Reservation '${reservation_id}' does not exist`
     })
-    next()
 }
 
 async function validRequest(req, res, next) {
@@ -100,6 +100,22 @@ function checkIfSeated(req, res, next) {
   }
   next();
 }
+
+async function findReservation(req, res, next) {
+  const reservation_id = res.locals.table.reservation_id
+  const reservation = await service.read(reservation_id)
+  if (!reservation_id) {
+    return next({ status: 400, message: "table is not occupied" });
+  }
+  if(reservation) {
+    res.locals.reservation = reservation
+    return next()
+  }
+  next({ status: 404,
+    message: `Reservation ${reservation_id} not found`
+  })
+  next()
+}
     
 
 async function list(req, res, next) {
@@ -116,22 +132,39 @@ async function read(req, res, next) {
     res.json({data: await service.read(table_id)})
 }
 
+//Seats reservation
 async function update(req, res, next) {
-  const reservation_id = res.locals.reservation.reservation_id;
-  const table = res.locals.table;
-  const updatedTable = {
-    ...table,
-    reservation_id: reservation_id,
-  };
+  const table = req.body.data
+  const reservation = res.locals.resrevation
 
-  service.newStatus(reservation_id, "seated");
-  const updatedRes = await service.update(updateReservation)
-  res.json ({ data: { reservation_id: updatedRes} })
+  const updateTable = {
+    ...table,
+    table_id: res.locals.table.table_id
+  }
+  const updateReservation = {
+    ...reservation,
+    status: "seated"
+  }
+  const data = await service.update(updateTable, updateReservation)
+  res.json({ data })
 }
 
-
+//Removes reservation
 async function destroy(req, res, next) {
-    res.json({data})
+  const table = res.locals.table
+  const reservation = res.locals.reservation
+
+  const updateTable = {
+    ...table,
+    reservation_id: null
+  }
+  const updateReservation = {
+    ...reservation,
+    reservation_id: reservation.reservation_id,
+    status: "finished"
+  }
+  const data = await service.update(updateTable, updateReservation)
+  res.json({ data })
 }
 
 
@@ -159,6 +192,7 @@ module.exports = {
     ],
     delete: [
         tableExists,
+        findReservation,
         asyncErrorBoundary(destroy)
     ]
 }

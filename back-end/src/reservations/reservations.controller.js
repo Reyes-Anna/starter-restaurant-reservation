@@ -5,16 +5,6 @@ const service = require("./reservations.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 const hasProperties = require("../errors/hasProperties")
 
-
-const VALID_PROPERTIES = [
-  "first_name",
-  "last_name",
-  "mobile_number",
-  "reservation_date",
-  "reservation_time",
-  "people",
-]
-
 const hasRequiredProperties = hasProperties(
   "first_name",
   "last_name",
@@ -24,15 +14,25 @@ const hasRequiredProperties = hasProperties(
   "people",
 )
 
-function validPeople(req, res, next) {
-  const people = req.body.data.people;
-  if(people && people > 0 && typeof people === "number") {
+function hasData(req, res, next ) {
+  if(req.body.data) {
     return next()
   }
-  next({
+  next({ 
     status: 400,
-    message: `number of people is required`
+    message: "Body must have a data property"
   })
+}
+
+function validPeople(req, res, next) {
+  const { data: { people } = {} } = req. body
+  if(!Number.isInteger(people)) {
+    next({
+      status: 400,
+      message: `number of people is required`
+    })
+  }
+  next()
 }
 
 function hasValidProperties(req, res, next) {
@@ -54,20 +54,6 @@ function hasValidProperties(req, res, next) {
   next()
 }
 
-function hasOnlyValidProperties(req, res, next) {
-  const { data = {} } = req.body
-
-  const invalidFields = Object.keys(data).filter((field) => !VALID_PROPERTIES.includes(field))
-
-  if(invalidFields.length) {
-    return next({
-      status: 400,
-      message: `Invalid field(s): ${invalidFields.join(", ")}`,
-    })
-  }
-  next()
-}
-
 function reservationExists(req, res, next) {
   const {reservation_id} = req.params
   service.read(reservation_id)
@@ -84,7 +70,7 @@ function reservationExists(req, res, next) {
   .catch(next)
   }
 
-  function validateDateAndTime(req, res, next) {
+  function validDateAndTime(req, res, next) {
     const { data = {} } = req.body;
     const date = data["reservation_date"];
     const time = data["reservation_time"];
@@ -123,14 +109,28 @@ function reservationExists(req, res, next) {
 
 //causes POST to timeout
 async function isBooked(req, res, next) {
-  const {data} = req.body
-  if(data.status == "finished" || data.status == "seated") {
-    return next({
+  const { status } = req.body.data
+  if(status && status !== "booked") {
+     next({
       status: 400,
-      message: "A new reservation cannot be made unless status is booked"
+      message: `A new reservation cannot be made with a status of ${status}`
     })
   }
+  next()
 }
+
+function validStatus(req, res, next) {
+  const statusTypes = ["booked", "seated", "finished", "cancelled"]
+  const { status } = req.body.data
+  if(status && !statusTypes.includes(status)) {
+     next({
+      status: 400,
+      message: `Invalid status: ${status}`
+    })
+  }
+  next()
+}
+
 
 async function isFinished(req, res, next) {
   const { reservation_id } = req.params
@@ -163,12 +163,11 @@ async function create(req, res) {
     else {
       data = await service.list()
     }
-   // console.log("reservation", reservation)
     res.json({ data: reservation });
   }
 
   async function read(req, res, next) {
-    res.json({data: await service.read()})
+    res.json({data: res.locals.reservation})
 }
 
 async function update(req, res, next) {
@@ -193,23 +192,25 @@ module.exports = {
   list: [asyncErrorBoundary(list)],
   read: [reservationExists, asyncErrorBoundary(read)],
   create: [ 
-    hasOnlyValidProperties,
+    hasData,
     validPeople, 
     hasRequiredProperties, 
     hasValidProperties, 
-    validateDateAndTime,
+    validDateAndTime,
+    isBooked,
     asyncErrorBoundary(create),
   ],
-  update: [
-    hasOnlyValidProperties, 
+  update: [ 
     hasRequiredProperties, 
     hasValidProperties, 
+    reservationExists,
     asyncErrorBoundary(update)
   ],
   updateStatus: [
-    reservationExists,
+    hasData,
+    asyncErrorBoundary(reservationExists),
+    validStatus,
     isFinished,
     asyncErrorBoundary(updateStatus)
   ],
-  reservationExists,
 };

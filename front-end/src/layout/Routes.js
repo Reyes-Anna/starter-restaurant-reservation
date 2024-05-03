@@ -62,13 +62,19 @@ function formatTime(time) {
           setNewError={setNewError}/>
       </Route>
       <Route path="/reservations/:reservation_id/seat">
-        <SeatReservation />
+        <SeatReservation 
+          newError={newError} 
+          setNewError={setNewError}/>
       </Route>
       <Route path="/tables/new">
-        <NewTable />
+        <NewTable 
+          newError={newError} 
+          setNewError={setNewError}/>
       </Route>
       <Route path="/search">
-        <SearchReservation newError={newError} setNewError={setNewError}/>
+        <SearchReservation 
+          newError={newError} 
+          setNewError={setNewError}/>
       </Route>
       <Route>
         <NotFound />

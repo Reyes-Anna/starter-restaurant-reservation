@@ -76,11 +76,14 @@ function Dashboard({ date, setDate }) {
 
       <div>
         <h4>Tables</h4>
-        <ListTables 
-          tables={tables}
-          setTablesError={setTablesError}
-          loadDashboard={loadDashboard}
-        />
+        {tables.map((table, index) => (
+          <ListTables 
+            key={index}
+            tables={table}
+            setTablesError={setTablesError}
+            loadDashboard={loadDashboard}
+          />
+        ))}
       </div>
 
       <div>

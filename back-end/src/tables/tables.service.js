@@ -9,10 +9,10 @@ function read(table_id) {
 }
 
 function readReservationId(reservation_id) {
-    return knex("tables as t")
-    .join("reservations as r", "t.reservation_id", "r.reservation_id")
-    .where({ reservation_id })
-    .select("t.*")
+    return knex("reservations")
+    .select("*")
+    .where({"reservation_id": reservation_id })
+    .first("*")
     
 }
 
@@ -22,11 +22,21 @@ function create(newTable) {
     .then((createTable) => createTable[0])
 }
 
-function update(updateTable) {
+async function update(updateTable, updateReservation) {
+    const transaction = await knex.transaction()
     return knex("tables")
     .where({ table_id: updateTable.table_id})
     .update(updateTable, "*")
     .then((update) => update[0])
+    .then(() => {
+        return transaction("reservations")
+        .select("*")
+        .where({"reservation_id": updateReservation.reservation_id})
+        .update(updateReservation, "*")
+        .then((updateRes) => updateRes[0])
+    })
+    .then(transaction.commit)
+    .catch(transaction.rollback);
 }
 
 module.exports ={
