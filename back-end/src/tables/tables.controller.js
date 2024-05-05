@@ -134,15 +134,13 @@ async function read(req, res, next) {
 
 //Seats reservation
 async function update(req, res, next) {
-  const table = req.body.data
-  const reservation = res.locals.resrevation
 
   const updateTable = {
-    ...table,
+    ...req.body.data,
     table_id: res.locals.table.table_id
   }
   const updateReservation = {
-    ...reservation,
+    ...res.locals.reservation,
     status: "seated"
   }
   const data = await service.update(updateTable, updateReservation)
@@ -151,16 +149,13 @@ async function update(req, res, next) {
 
 //Removes reservation
 async function destroy(req, res, next) {
-  const table = res.locals.table
-  const reservation = res.locals.reservation
-
   const updateTable = {
-    ...table,
+    ...res.locals.table,
     reservation_id: null
   }
   const updateReservation = {
-    ...reservation,
-    reservation_id: reservation.reservation_id,
+    ...res.locals.reservation,
+    reservation_id: res.locals.reservation.reservation_id,
     status: "finished"
   }
   const data = await service.update(updateTable, updateReservation)
@@ -191,8 +186,8 @@ module.exports = {
         asyncErrorBoundary(create)
     ],
     delete: [
-        tableExists,
-        findReservation,
+        asyncErrorBoundary(tableExists),
+        asyncErrorBoundary(findReservation),
         asyncErrorBoundary(destroy)
     ]
 }

@@ -28,15 +28,15 @@ async function update(updateTable, updateReservation) {
     .where({ table_id: updateTable.table_id})
     .update(updateTable, "*")
     .then((update) => update[0])
-    .then(() => {
-        return transaction("reservations")
-        .select("*")
-        .where({"reservation_id": updateReservation.reservation_id})
-        .update(updateReservation, "*")
-        .then((updateRes) => updateRes[0])
+    .then(async () => {
+        const updateRes = await transaction("reservations")
+            .select("*")
+            .where({ "reservation_id": updateReservation.reservation_id })
+            .update(updateReservation, "*")
+        return updateRes[0]
     })
     .then(transaction.commit)
-    .catch(transaction.rollback);
+    .catch(transaction.rollback)
 }
 
 module.exports ={
