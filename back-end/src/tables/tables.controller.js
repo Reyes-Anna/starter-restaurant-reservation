@@ -101,12 +101,10 @@ function checkIfSeated(req, res, next) {
   next();
 }
 
+
 async function findReservation(req, res, next) {
   const reservation_id = res.locals.table.reservation_id
-  const reservation = await service.read(reservation_id)
-  if (!reservation_id) {
-    return next({ status: 400, message: "table is not occupied" });
-  }
+  const reservation = await service.readReservationId(reservation_id)
   if(reservation) {
     res.locals.reservation = reservation
     return next()
@@ -114,6 +112,13 @@ async function findReservation(req, res, next) {
   next({ status: 404,
     message: `Reservation ${reservation_id} not found`
   })
+}
+
+async function tableNotOccupied(req, res, next) {
+  const reservation_id = res.locals.table.reservation_id
+  if (!reservation_id) {
+    return next({ status: 400, message: "table is not occupied" });
+  }
   next()
 }
     
@@ -149,14 +154,14 @@ async function update(req, res, next) {
 
 //Removes reservation
 async function destroy(req, res, next) {
+  const updateReservation = {
+    ...res.locals.reservation,
+    reservation_id: res.locals.table.reservation_id,
+    status: "finished"
+  }
   const updateTable = {
     ...res.locals.table,
     reservation_id: null
-  }
-  const updateReservation = {
-    ...res.locals.reservation,
-    reservation_id: res.locals.reservation.reservation_id,
-    status: "finished"
   }
   const data = await service.update(updateTable, updateReservation)
   res.json({ data })
@@ -167,13 +172,13 @@ async function destroy(req, res, next) {
 
 
 module.exports = {
-    list,
+    list: [asyncErrorBoundary(list)],
     read: [
-        tableExists, 
+        asyncErrorBoundary(tableExists), 
         asyncErrorBoundary(read)
     ],
     update: [
-        validRequest,
+        asyncErrorBoundary(validRequest),
         asyncErrorBoundary(tableExists),
         asyncErrorBoundary(reservationExists),
         validTable,
@@ -187,6 +192,7 @@ module.exports = {
     ],
     delete: [
         asyncErrorBoundary(tableExists),
+        asyncErrorBoundary(tableNotOccupied),
         asyncErrorBoundary(findReservation),
         asyncErrorBoundary(destroy)
     ]
