@@ -26,10 +26,10 @@ function NewReservation({ formatDate, formatTime, newError, setNewError}) {
         setNewError(false)
         try {
             await createReservation(newReservation)
-            history.push("/dashboard")
+            history.push(`/dashboard?date=${newReservation.reservation_date}`)
         }
         catch(error) {
-            if(error.name !== "AbortError") {
+            if(error.name !== "abortError") {
                 setNewError(error)
             }
         }

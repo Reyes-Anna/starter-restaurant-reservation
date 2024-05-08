@@ -24,9 +24,9 @@ function Dashboard({ date, setDate }) {
 
   useEffect(() => {
     function updateDate() {
-      const queryDate = query.get("date");
-      if (queryDate) {
-        setDate(queryDate);
+      const date = query.get("date");
+      if (date) {
+        setDate(date);
       } else {
         setDate(today());
       }
