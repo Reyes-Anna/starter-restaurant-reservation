@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function ReservationForm({reservation, submitHandler, changeHandler}) {
@@ -41,7 +41,7 @@ function ReservationForm({reservation, submitHandler, changeHandler}) {
                     value={reservation.mobile_number}
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     onChange={changeHandler}
-                    placeholder="XXX-XXX-XXXX"
+                    placeholder="(XXX) XXX-XXXX"
                     required
                 />
             </div>

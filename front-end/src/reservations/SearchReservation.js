@@ -42,9 +42,9 @@ function Search({ newError, setNewError }) {
             </div>
             <div>
                 {reservationSearch.length ?
-                    reservationSearch.map((reservation, index) => (
+                    reservationSearch.map((reservation) => (
                         <ListReservations 
-                            key={index}
+                            key={reservation.reservation_id}
                             reservation={reservation}/> 
                     ))
                     : <h4>No reservations found</h4>

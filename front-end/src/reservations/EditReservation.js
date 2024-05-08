@@ -12,10 +12,8 @@ function EditReservation({formatDate, formatTime, newError, setNewError}) {
 
     useEffect(() => {
         async function loadReservation() {
-    
                 const response = await readReservation(reservation_id)
                 setReservationData(response)
-          
         }
         loadReservation()
     },[reservation_id])

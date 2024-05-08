@@ -50,48 +50,45 @@ function Dashboard({ date, setDate }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-      <div>
-        <h4 className="mb-2">Reservations for {date}</h4>
-        <div id="reservationCard" >
-            {reservations.map((reservation, index) => (
-              <ListReservation 
-                key={index}
-                reservation={reservation}
-                setReservationsError={setReservationsError}
-                loadDashboard={loadDashboard}
-              />
-            ))}
-          </div>
-      </div>
+    <h1>Dashboard</h1>
+    <div>
+      <h4 className="mb-2">Reservations for {date}</h4>
+      <div id="reservationCard" >
+          {reservations.map((reservation) => (
+            <ListReservation 
+              key={reservation.reservation_id}
+              reservation={reservation}
+              setReservationsError={setReservationsError}
+              loadDashboard={loadDashboard}
+            />
+          ))}
+        </div>
+    </div>
 
-      <ErrorAlert error={reservationsError} />
-      <ErrorAlert error={tablesError} />
+    <ErrorAlert error={reservationsError} />
+    <ErrorAlert error={tablesError} />
 
-      <div className="d-md-flex flex-column">
-        {!reservations.length && 
-          <h4>No reservations on this date.</h4>
-        }
-      </div>
-
-      <div>
-        <h4>Tables</h4>
-        {tables.map((table, index) => (
-          <ListTables 
-            key={index}
-            tables={table}
-            setTablesError={setTablesError}
-            loadDashboard={loadDashboard}
-          />
-        ))}
-      </div>
-
-      <div>
-        <NavigationButtons currentDate={date}/>
-      </div>
-    
-    </main>
-  );
+    <div className="d-md-flex flex-column">
+      {!reservations.length && 
+        <h4>No reservations on this date.</h4>
+      }
+    </div>
+    <div className="text-center">
+      <NavigationButtons currentDate={date}/>
+    </div>
+    <div>
+      <h4>Tables</h4>
+      {tables.map((table) => (
+        <ListTables 
+          key={table.table_id}
+          table={table}
+          setTablesError={setTablesError}
+          loadDashboard={loadDashboard}
+        />
+      ))}
+    </div>
+  </main>
+  )
 }
 
 export default Dashboard;

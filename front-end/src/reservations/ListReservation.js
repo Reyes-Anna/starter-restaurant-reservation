@@ -15,7 +15,7 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
 
     return (
         <div className="card mb-4" key={reservation.reservation_id}>
-            <div className="card-header py-3"></div>
+            <div className="card-header py-4"></div>
             <div className="card-body">
                 <h5 className="card-title">{reservation.first_name} {reservation.last_name}</h5>
                 <p className="card-text">Reservation Date: {reservation.reservation_date}</p>
