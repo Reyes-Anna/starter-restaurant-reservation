@@ -2,7 +2,7 @@ import React from "react";
 import { deleteReservation } from "../utils/api";
 
 function ListTables({table, setTablesError, loadDashboard}) {
-
+    
     const finishButtonHandler = (event) => {
         event.preventDefault()
         const message = "Is this table ready to seat new guests? This cannot be undone.";

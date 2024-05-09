@@ -70,7 +70,7 @@ function reservationExists(req, res, next) {
   .catch(next)
 }
 
-function validDateAndTime(req, res, next) {
+function validDate(req, res, next) {
   const { data = {} } = req.body;
   const date = data["reservation_date"];
   const time = data["reservation_time"];
@@ -96,17 +96,21 @@ function validDateAndTime(req, res, next) {
       message: `Reservation must be in the future`,
     });
   }
-
-  if(timeParts < "1030" || timeParts > "2230") {
-    return next({
-      status: 400,
-      message: "Reservations can only be made between 10:30AM and 9:30PM"
-    })
-  }
   next();
-
 }
 
+function validReservationTime(req, res, next) {
+  let time = req.body.data.reservation_time
+  time = time.replace(":", "")
+  time = parseInt(time)
+  if(time < 1030 || time > 2130 ) {
+    return next({
+            status: 400,
+            message: "Reservations can only be made between 10:30AM and 9:30PM"
+          })
+  }
+  next()
+ }
 
 async function isBooked(req, res, next) {
   const { status } = req.body.data
@@ -187,7 +191,8 @@ module.exports = {
     validPeople, 
     hasRequiredProperties, 
     hasValidProperties, 
-    validDateAndTime,
+    validDate,
+    validReservationTime,
     asyncErrorBoundary(isBooked),
     asyncErrorBoundary(create),
   ],

@@ -57,7 +57,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
     });
 
     test("clicking finish button and then clicking OK makes that table available", async () => {
-      await page.screenshot({
+      await page?.screenshot({
         path: ".screenshots/us-05-dashboard-finish-button-before.png",
         fullPage: true,
       });
@@ -86,7 +86,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
         return response.url().endsWith(`/tables`);
       });
 
-      await page.screenshot({
+      await page?.screenshot({
         path: ".screenshots/us-05-dashboard-finish-button-after.png",
         fullPage: true,
       });
@@ -101,7 +101,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
     });
 
     test("clicking finish button and then clicking CANCEL does nothing", async () => {
-      await page.screenshot({
+      await page?.screenshot({
         path: ".screenshots/us-05-dashboard-finish-button-cancel-before.png",
         fullPage: true,
       });
@@ -128,7 +128,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
 
       await page.waitForTimeout(1000);
 
-      await page.screenshot({
+      await page?.screenshot({
         path: ".screenshots/us-05-dashboard-finish-button-cancel-after.png",
         fullPage: true,
       });

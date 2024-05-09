@@ -1,10 +1,9 @@
-
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function ReservationForm({reservation, submitHandler, changeHandler}) {
     const history = useHistory()
     return (
-        <form onSubmit= {submitHandler}>
+        <form onSubmit={submitHandler}>
             <div className="form-group">
                 <label htmlFor="first_name">First Name</label>
                 <input 
@@ -39,7 +38,6 @@ function ReservationForm({reservation, submitHandler, changeHandler}) {
                     className="form-control" 
                     id="mobile_number" 
                     value={reservation.mobile_number}
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     onChange={changeHandler}
                     placeholder="(XXX) XXX-XXXX"
                     required
@@ -84,7 +82,6 @@ function ReservationForm({reservation, submitHandler, changeHandler}) {
                     id="people"
                     value={reservation.people}
                     onChange={changeHandler}
-                    
                     required
                     />
             </div>

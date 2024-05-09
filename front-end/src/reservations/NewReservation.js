@@ -29,7 +29,7 @@ function NewReservation({ formatDate, formatTime, newError, setNewError}) {
             history.push(`/dashboard?date=${newReservation.reservation_date}`)
         }
         catch(error) {
-            if(error.name !== "abortError") {
+            if(error.name !== "AbortError") {
                 setNewError(error)
             }
         }
