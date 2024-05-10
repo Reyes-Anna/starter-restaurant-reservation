@@ -16,6 +16,8 @@ function SeatReservation({ newError, setNewError }) {
             try {
                 const response = await listTables(abortController.signal)
                 setTables(response)
+
+
             }
             catch(error) {
                 if(error.name !== "AbortError") setNewError(error)
@@ -35,11 +37,13 @@ function SeatReservation({ newError, setNewError }) {
         return () => abortController.abort()
     }, [reservation_id, setNewError] )
 
-    const submitHandler = (event) => {
+    async function submitHandler(event) {
         event.preventDefault();
         const abortController = new AbortController()
         try {
-            seatReservation(reservation, selectedTable.table_id, abortController.signal)
+            console.log(reservation.reservation_id)
+            console.log(selectedTable.table_id)
+            await seatReservation(reservation_id, selectedTable.table_id, abortController.signal)
             history.push("/dashboard")
         }
         catch(error) {
@@ -57,15 +61,16 @@ function SeatReservation({ newError, setNewError }) {
         <div>
             <ErrorAlert error={newError}/>
             <form onSubmit={submitHandler}>
-                <h2>Assign Reservation {reservation_id} to a Table</h2>
+                <h2>Assign Reservation {reservation.reservation_id} to a Table</h2>
                 <div className="my-4">
                     <select
                         name="table_id"
                         id="selectTable"
                         onChange={changeHandler}>
                         <option> -Please pick a table -</option>
-                        {tables.map((table) => (
-                            <option key={table.table_id} className="">{table.table_name} - {table.capacity}</option>
+                        {tables.map((table) => ( 
+                            
+                            <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>
                         ))}
                     </select>
                 </div>

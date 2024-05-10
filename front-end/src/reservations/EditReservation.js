@@ -52,7 +52,6 @@ function EditReservation({formatDate, formatTime, newError, setNewError}) {
         }
       }
     if(reservationData) {
-        console.log(reservationData)
         return (
             <div className="container fluid">
                 <h2>Edit Reservation</h2>

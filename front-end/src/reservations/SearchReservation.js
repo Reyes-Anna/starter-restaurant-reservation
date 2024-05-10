@@ -23,7 +23,7 @@ function Search({ newError, setNewError }) {
     const handleChange = ({ target }) => {
         setMobileNumber(target.value);
       }
-    
+   // console.log(reservationSearch)
     return(
         <div>
             <h2>Search For Reservation</h2>
