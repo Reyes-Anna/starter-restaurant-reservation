@@ -65,7 +65,7 @@ function SeatReservation({ newError, setNewError }) {
                         onChange={changeHandler}>
                         <option> -Please pick a table -</option>
                         {tables.map((table) => (
-                            <option key={table.table_id} className="">{table.table_name} - Capacity: {table.capacity}</option>
+                            <option key={table.table_id} className="">{table.table_name} - {table.capacity}</option>
                         ))}
                     </select>
                 </div>

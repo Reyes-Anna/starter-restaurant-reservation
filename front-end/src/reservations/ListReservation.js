@@ -22,6 +22,7 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
                 <p className="card-text">Reservation Time: {reservation.reservation_time}</p>
                 <p className="card-text">Mobile Number: {reservation.mobile_number}</p>
                 <p className="card-text">Party Size: {reservation.people}</p>
+                <p className="card-text">Status: {reservation.status}</p>
                 <button 
                     className="btn btn-danger mx-1 px-3"
                     data-reservation-id-cancel={reservation.reservation_id}

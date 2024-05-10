@@ -6,13 +6,18 @@ import ListReservations from "./ListReservation"
 function Search({ newError, setNewError }) {
     const [mobileNumber, setMobileNumber]= useState("")
     const [reservationSearch, setReservationSearch] = useState([])
+    const [reservationMessage, setReservationMessage] = useState("")
+
     const abortController = new AbortController()
 
     const handleFind = (event) => {
         event.preventDefault()
         listReservations({mobileNumber}, abortController.signal)
         .then((reservationSearch) => setReservationSearch(reservationSearch))
+        .then(setReservationMessage("No Reservations Found!"))
         .catch((error) => setNewError(error))
+
+        return () => abortController.abort()
     }
 
     const handleChange = ({ target }) => {
@@ -20,15 +25,16 @@ function Search({ newError, setNewError }) {
       }
     
     return(
-        <div >
+        <div>
             <h2>Search For Reservation</h2>
             <ErrorAlert error={newError} />
             <div className="input-group mb-3">
                 <input 
-                    type="tel" 
+                    type="text" 
                     name="mobile_number"
                     className="form-control" 
                     onChange={handleChange}
+                    value={mobileNumber}
                     placeholder="Enter a customer's phone number" 
                  />
                 <button 
@@ -47,7 +53,7 @@ function Search({ newError, setNewError }) {
                             key={reservation.reservation_id}
                             reservation={reservation}/> 
                     ))
-                    : <h4>No reservations found</h4>
+                    : <h4>{reservationMessage}</h4>
                 }
             </div>
         </div>
