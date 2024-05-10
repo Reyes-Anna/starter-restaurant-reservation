@@ -13,17 +13,19 @@ function EditReservation({formatDate, formatTime, newError, setNewError}) {
     useEffect(() => {
         async function loadReservation() {
                 const response = await readReservation(reservation_id)
+                response.reservation_date = formatDate(response.reservation_date)
+                response.reservation_time = formatTime(response.reservation_time)
                 setReservationData(response)
         }
         loadReservation()
-    },[reservation_id])
+    },[reservation_id, formatDate, formatTime])
 
     async function submitHandler(event) {
         event.preventDefault()
         setNewError(false)
         try {
             await updateReservation(reservationData, abortController.signal)
-            history.push(`/dashboard?date=${reservationData.reservation_date}`)
+            history.push(`/dashboard?date=${reservationData.reservation_date.slice(0,10)}`)
         }
         catch(error) {
             if(error.name !== "AbortError") {
@@ -50,6 +52,7 @@ function EditReservation({formatDate, formatTime, newError, setNewError}) {
         }
       }
     if(reservationData) {
+        console.log(reservationData)
         return (
             <div className="container fluid">
                 <h2>Edit Reservation</h2>
