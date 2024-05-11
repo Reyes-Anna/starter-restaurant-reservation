@@ -3,9 +3,10 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { listTables, readReservation, seatReservation } from "../utils/api";
 
-function SeatReservation({ newError, setNewError }) {
+function SeatReservation() {
     const history = useHistory()
     const { reservation_id } = useParams()
+    const [newError, setNewError] = useState(false);
     const [ reservation, setReservation] = useState([])
     const [ tables, setTables ] = useState([])
     const [ selectedTable, setSelectedTable] = useState({ reservation_id: reservation_id })
@@ -39,11 +40,10 @@ function SeatReservation({ newError, setNewError }) {
 
     async function submitHandler(event) {
         event.preventDefault();
+        
         const abortController = new AbortController()
         try {
-            console.log(reservation.reservation_id)
-            console.log(selectedTable.table_id)
-            await seatReservation(reservation_id, selectedTable.table_id, abortController.signal)
+            await seatReservation(reservation.reservation_id, selectedTable.table_id, abortController.signal)
             history.push("/dashboard")
         }
         catch(error) {
@@ -67,9 +67,8 @@ function SeatReservation({ newError, setNewError }) {
                         name="table_id"
                         id="selectTable"
                         onChange={changeHandler}>
-                        <option> -Please pick a table -</option>
+                        <option value=""> -Please pick a table -</option>
                         {tables.map((table) => ( 
-                            
                             <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>
                         ))}
                     </select>

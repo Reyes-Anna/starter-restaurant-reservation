@@ -20,7 +20,6 @@ import SearchReservation from "../reservations/SearchReservation"
 
 function Routes() {
   const [date, setDate] = useState()
-  const [newError, setNewError] = useState(false);
 
   function formatDate(date) {
     let formattedDate = date.split("");
@@ -51,30 +50,22 @@ function formatTime(time) {
         <NewReservation 
           formatDate={formatDate}
           formatTime={formatTime}
-          newError={newError} 
-          setNewError={setNewError}/>
+         />
       </Route>
       <Route path="/reservations/:reservation_id/edit">
         <EditReservation
           formatDate={formatDate}
           formatTime={formatTime} 
-          newError={newError} 
-          setNewError={setNewError}/>
+       />
       </Route>
       <Route path="/reservations/:reservation_id/seat">
-        <SeatReservation 
-          newError={newError} 
-          setNewError={setNewError}/>
+        <SeatReservation />
       </Route>
       <Route path="/tables/new">
-        <NewTable 
-          newError={newError} 
-          setNewError={setNewError}/>
+        <NewTable />
       </Route>
       <Route path="/search">
-        <SearchReservation 
-          newError={newError} 
-          setNewError={setNewError}/>
+        <SearchReservation />
       </Route>
       <Route>
         <NotFound />

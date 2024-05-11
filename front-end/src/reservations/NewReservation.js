@@ -5,7 +5,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import ReservationForm from "./ReservationForm";
 
 
-function NewReservation({ formatDate, formatTime, newError, setNewError}) {
+function NewReservation({ formatDate, formatTime}) {
     const history = useHistory()
     
     const initialReservationFormState = {
@@ -19,6 +19,7 @@ function NewReservation({ formatDate, formatTime, newError, setNewError}) {
     }
 
     const [newReservation, setNewReservation] = useState({...initialReservationFormState});
+    const [newError, setNewError] = useState(false);
     const abortController = new AbortController()
 
     async function submitHandler(event) {

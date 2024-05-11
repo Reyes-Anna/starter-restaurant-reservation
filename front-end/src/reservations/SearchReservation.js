@@ -3,8 +3,9 @@ import ErrorAlert from "../layout/ErrorAlert"
 import { listReservations } from "../utils/api"
 import ListReservations from "./ListReservation"
 
-function Search({ newError, setNewError }) {
-    const [mobileNumber, setMobileNumber]= useState("")
+function Search() {
+    const [mobileNumber, setMobileNumber]= useState({ mobile_number: ""})
+    const [newError, setNewError] = useState(false);
     const [reservationSearch, setReservationSearch] = useState([])
     const [reservationMessage, setReservationMessage] = useState("")
 
@@ -12,18 +13,18 @@ function Search({ newError, setNewError }) {
 
     const handleFind = (event) => {
         event.preventDefault()
-        listReservations({mobileNumber}, abortController.signal)
+        listReservations(mobileNumber , abortController.signal)
         .then((reservationSearch) => setReservationSearch(reservationSearch))
-        .then(setReservationMessage("No Reservations Found!"))
+        .then(setReservationMessage("No reservations found!"))
         .catch((error) => setNewError(error))
 
         return () => abortController.abort()
     }
 
     const handleChange = ({ target }) => {
-        setMobileNumber(target.value);
+        setMobileNumber({ ...mobileNumber, [target.name]: target.value})
       }
-   // console.log(reservationSearch)
+      
     return(
         <div>
             <h2>Search For Reservation</h2>
@@ -34,7 +35,6 @@ function Search({ newError, setNewError }) {
                     name="mobile_number"
                     className="form-control" 
                     onChange={handleChange}
-                    value={mobileNumber}
                     placeholder="Enter a customer's phone number" 
                  />
                 <button 

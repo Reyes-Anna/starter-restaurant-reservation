@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { createTable } from "../utils/api"
 import ErrorAlert from "../layout/ErrorAlert";
 
-function NewTable({newError, setNewError}) {
+function NewTable() {
+    const [newError, setNewError] = useState(false);
     const history= useHistory()
     const abortController = new AbortController()
     const initalTableForm = {

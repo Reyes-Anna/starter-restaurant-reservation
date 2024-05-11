@@ -4,8 +4,9 @@ import ReservationForm from "./ReservationForm"
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min"
 import { readReservation, updateReservation } from "../utils/api"
 
-function EditReservation({formatDate, formatTime, newError, setNewError}) {
+function EditReservation({formatDate, formatTime}) {
     const [reservationData, setReservationData] = useState({})
+    const [newError, setNewError] = useState(false);
     const abortController = new AbortController()
     const history = useHistory()
     const { reservation_id } = useParams()
@@ -15,6 +16,7 @@ function EditReservation({formatDate, formatTime, newError, setNewError}) {
                 const response = await readReservation(reservation_id)
                 response.reservation_date = formatDate(response.reservation_date)
                 response.reservation_time = formatTime(response.reservation_time)
+                response.people = parseInt(response.people)
                 setReservationData(response)
         }
         loadReservation()
@@ -45,7 +47,7 @@ function EditReservation({formatDate, formatTime, newError, setNewError}) {
                 setReservationData({...reservationData, [name]: formatTime(value) })
                 break;
             case "people":
-                setReservationData({...reservationData, [name]: parseInt(value) })
+                setReservationData({...reservationData, [name]: Number(value) })
                 break;
             default:
                 setReservationData({...reservationData, [name]: value })
