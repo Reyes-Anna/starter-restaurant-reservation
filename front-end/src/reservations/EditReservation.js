@@ -47,7 +47,7 @@ function EditReservation({formatDate, formatTime}) {
                 setReservationData({...reservationData, [name]: formatTime(value) })
                 break;
             case "people":
-                setReservationData({...reservationData, [name]: Number(value) })
+                setReservationData({...reservationData, [name]: parseInt(value) })
                 break;
             default:
                 setReservationData({...reservationData, [name]: value })

@@ -25,7 +25,7 @@ function hasData(req, res, next ) {
 }
 
 function validPeople(req, res, next) {
-  const { data: { people } = {} } = req. body
+  const { data: { people } = {} } = req.body
   if(!Number.isInteger(people)) {
     next({
       status: 400,

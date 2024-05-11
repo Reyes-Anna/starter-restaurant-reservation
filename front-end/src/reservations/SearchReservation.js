@@ -1,15 +1,27 @@
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ErrorAlert from "../layout/ErrorAlert"
 import { listReservations } from "../utils/api"
 import ListReservations from "./ListReservation"
 
 function Search() {
-    const [mobileNumber, setMobileNumber]= useState({ mobile_number: ""})
+    const inital = {
+        mobile_number: ""
+    }
+    
+    const [mobileNumber, setMobileNumber]= useState(inital)
     const [newError, setNewError] = useState(false);
     const [reservationSearch, setReservationSearch] = useState([])
     const [reservationMessage, setReservationMessage] = useState("")
 
     const abortController = new AbortController()
+
+    useEffect(() => {
+        const initalMobileNumber = {
+            mobile_number: ""
+        }
+        setMobileNumber(initalMobileNumber)
+        setReservationSearch([])
+    }, [])
 
     const handleFind = (event) => {
         event.preventDefault()
