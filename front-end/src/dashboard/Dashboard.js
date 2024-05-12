@@ -7,6 +7,7 @@ import NavigationButtons from "./NavigationButtons"
 import { today } from "../utils/date-time";
 import useQuery from "../utils/useQuery"
 import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
+import "./Dashboard.css"
 
 
 /**

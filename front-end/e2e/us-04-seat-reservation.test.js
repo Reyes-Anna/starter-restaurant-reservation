@@ -36,7 +36,7 @@ describe("US-04 - Seat reservation - E2E", () => {
     });
 
     test("filling and submitting form creates a new table", async () => {
-      const tableName = `#${Date.now().toString(10)}`;
+      const tableName =`#${Date.now().toString(10)}`;
 
       await page.type("input[name=table_name]", tableName);
       await page.type("input[name=capacity]", "6");
@@ -170,16 +170,16 @@ describe("US-04 - Seat reservation - E2E", () => {
     });
 
     test("seating reservation at table #1 makes the table occupied", async () => {
-      await page.waitForSelector('option:not([value=""])');
+      await page?.waitForSelector('option:not([value=""])');
 
-      await page.screenshot({
+      await page?.screenshot({
         path: ".screenshots/us-04-seat-reservation-start.png",
         fullPage: true,
       });
 
       await selectOptionByText(page, "table_id", "#1 - 6");
 
-      await page.screenshot({
+      await page?.screenshot({
         path: ".screenshots/us-04-seat-reservation-submit-before.png",
         fullPage: true,
       });

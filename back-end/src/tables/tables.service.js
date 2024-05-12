@@ -24,16 +24,16 @@ function create(newTable) {
 
 async function update(updateTable, updateReservation) {
     const transaction = await knex.transaction()
-    return knex("tables")
+    return transaction("tables")
     .where({ table_id: updateTable.table_id})
     .update(updateTable, "*")
-    .then((update) => update[0])
-    .then(async () => {
-        const updateRes = await transaction("reservations")
+    .then(updateRecords => updateRecords[0])
+    .then(() => {
+            return transaction("reservations")
             .select("*")
             .where({ "reservation_id": updateReservation.reservation_id })
             .update(updateReservation, "*")
-        return updateRes[0]
+            .then(updateResRecords => updateResRecords[0])
     })
     .then(transaction.commit)
     .catch(transaction.rollback)

@@ -72,8 +72,8 @@ function NewTable() {
                     />
                 </div>
                 <div className="d-grid gap-2 d-md-flex mb-4">
-                    <button className="btn btn-secondary mx-1" onClick={() => history.goBack()} type="button">Cancel</button>
-                    <button className="btn btn-primary mx-1" type="submit">Submit</button>
+                    <button className="btn mx-1" onClick={() => history.goBack()} type="button">Cancel</button>
+                    <button className="btn mx-1" type="submit">Submit</button>
                 </div>
             </form>
         </div>

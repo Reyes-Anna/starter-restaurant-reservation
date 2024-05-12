@@ -1,6 +1,6 @@
 import React from "react";
 import { deleteReservation } from "../utils/api";
-
+import "./ListTables.css"
 function ListTables({table, setTablesError, loadDashboard}) {
     
     const finishButtonHandler = (event) => {
@@ -16,7 +16,7 @@ function ListTables({table, setTablesError, loadDashboard}) {
     return (
         <div className="card mb-4">
             <div 
-                className={`alert ${table.reservation_id ? "alert-warning" : "alert-success"}`} 
+                className={`alert ${table.reservation_id ? "alert-warning m-0" : "alert-success m-0"}`} 
                 id="statusBanner"
                 role="alert" 
                 data-table-id-status={table.table_id}>
@@ -35,7 +35,7 @@ function ListTables({table, setTablesError, loadDashboard}) {
                         {table.reservation_id && 
                             <button 
                             type="button" 
-                            className="btn btn-primary"
+                            className="btn"
                             id="finishButton"
                             onClick={finishButtonHandler}
                             data-table-id-finish={table.table_id}>

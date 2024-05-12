@@ -1,0 +1,21 @@
+.alert-warning {
+    background-color: #c46995;
+    color: #fff;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.alert-success {
+    background-color: #a91b60;
+    color: #fff;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.card-header {
+    background-color: #a91b60;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.card-body {
+    background-color: #fff3ee;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}

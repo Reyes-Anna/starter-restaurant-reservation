@@ -32,7 +32,7 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
                 <p className="card-text">Party Size: {reservation.people}</p>
                 <p className="card-text" data-reservation-id-status={reservation.reservation_id}>Status: {reservation.status}</p>
                 <button 
-                    className="btn btn-danger mx-1 px-3"
+                    className="btn mx-1 px-3"
                     data-reservation-id-cancel={reservation.reservation_id}
                     onClick={cancelHandler}
                     >
@@ -41,14 +41,14 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
                 {reservation.status === "booked" &&
                     <a 
                         href={`/reservations/${reservation.reservation_id}/edit`}
-                        className="btn btn-secondary mx-1 px-3" >
+                        className="btn mx-1 px-3" >
                             Edit
                     </a>
                 }
                 {reservation.status === "booked" &&
                     <a 
                         href={`/reservations/${reservation.reservation_id}/seat`}
-                        className="btn btn-secondary mx-1 px-3" >
+                        className="btn mx-1 px-3" >
                             Seat
                     </a>
                 }

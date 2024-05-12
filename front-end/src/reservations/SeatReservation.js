@@ -6,51 +6,35 @@ import { listTables, readReservation, seatReservation } from "../utils/api";
 function SeatReservation() {
     const history = useHistory()
     const { reservation_id } = useParams()
-    const [newError, setNewError] = useState(false);
+    const [ newError, setNewError] = useState(null);
     const [ reservation, setReservation] = useState([])
     const [ tables, setTables ] = useState([])
     const [ selectedTable, setSelectedTable] = useState({ reservation_id: reservation_id })
 
     useEffect(() => {
-        const abortController = new AbortController()
-        async function loadTables() {
-            try {
-                const response = await listTables(abortController.signal)
-                setTables(response)
-
-
-            }
-            catch(error) {
-                if(error.name !== "AbortError") setNewError(error)
-            }
-        }
         async function loadReservation() {
-            try {
-                const response = await readReservation(reservation_id, abortController.signal)
-                setReservation(response)
-            }
-            catch(error) {
-                if(error.name !== "AbortError") setNewError(error)
-            }
+            const response = await readReservation(reservation_id)
+            setReservation(response)
+        }
+        loadReservation()
+    }, [reservation_id] )
+
+    useEffect(() => {
+        async function loadTables() {
+            const response = await listTables()
+            setTables(response)
         }
         loadTables()
-        loadReservation()
-        return () => abortController.abort()
-    }, [reservation_id, setNewError] )
+    }, [])
 
-    async function submitHandler(event) {
+    const submitHandler=(event) => {
         event.preventDefault();
-        
-        const abortController = new AbortController()
-        try {
-            await seatReservation(reservation.reservation_id, selectedTable.table_id, abortController.signal)
-            history.push("/dashboard")
-        }
-        catch(error) {
-            if(error.name !== "AbortError") setNewError(error)
-        }
-        return () => abortController.abort()
-    }
+       // const abortController = new AbortController()
+        seatReservation(reservation_id, selectedTable.table_id)
+          .then(() => history.push("/dashboard"))
+          .catch((error) => setNewError(error));
+      }
+
 
     const changeHandler = ({ target }) => {
         setSelectedTable({...selectedTable, [target.name]: target.value })
@@ -65,11 +49,11 @@ function SeatReservation() {
                 <div className="my-4">
                     <select
                         name="table_id"
-                        id="selectTable"
+                        id="table-select"
                         onChange={changeHandler}>
-                        <option value=""> -Please pick a table -</option>
+                        <option>-Please Select Table-</option>
                         {tables.map((table) => ( 
-                            <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>
+                            <option value={table.table_id} key={table.name}>{table.table_name} - {table.capacity}</option>
                         ))}
                     </select>
                 </div>

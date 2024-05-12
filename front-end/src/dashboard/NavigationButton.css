@@ -1,0 +1,14 @@
+
+.btn {
+    background-color: #a91b60;
+    color: #fff;
+    border-radius: 15%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+}
+
+.btn:hover {
+    background-color: #FB6090;
+    color: #fff;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}

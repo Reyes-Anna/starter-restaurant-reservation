@@ -50,7 +50,7 @@ function Search() {
                     placeholder="Enter a customer's phone number" 
                  />
                 <button 
-                    className="btn btn-primary"
+                    className="btn"
                     type="submit"
                     onClick={handleFind}
                 >
