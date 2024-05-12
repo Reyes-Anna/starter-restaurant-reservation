@@ -8,6 +8,7 @@ import { today } from "../utils/date-time";
 import useQuery from "../utils/useQuery"
 import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 
+
 /**
  * Defines the dashboard page.
  * @param date

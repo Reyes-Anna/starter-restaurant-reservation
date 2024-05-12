@@ -63,7 +63,9 @@ function Search() {
                     reservationSearch.map((reservation) => (
                         <ListReservations 
                             key={reservation.reservation_id}
-                            reservation={reservation}/> 
+                            reservation={reservation}
+                            setReservationsError={setNewError}
+                            /> 
                     ))
                     : <h4>{reservationMessage}</h4>
                 }
