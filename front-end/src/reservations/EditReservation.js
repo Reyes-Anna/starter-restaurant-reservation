@@ -5,7 +5,15 @@ import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min
 import { readReservation, updateReservation } from "../utils/api"
 
 function EditReservation({formatDate, formatTime}) {
-    const [reservationData, setReservationData] = useState({})
+    const initalFormData = {
+        first_name: '',
+        last_name: '',
+        mobile_number: '',
+        reservation_date: '',
+        reservation_time: '',
+        people: ''
+    }
+    const [reservationData, setReservationData] = useState(initalFormData)
     const [newError, setNewError] = useState(false);
     const abortController = new AbortController()
     const history = useHistory()

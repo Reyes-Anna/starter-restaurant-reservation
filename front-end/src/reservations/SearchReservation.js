@@ -19,8 +19,8 @@ function Search() {
         const initalMobileNumber = {
             mobile_number: ""
         }
-        setMobileNumber(initalMobileNumber)
         setReservationSearch([])
+        setMobileNumber(initalMobileNumber)
     }, [])
 
     const handleFind = (event) => {
