@@ -201,6 +201,8 @@ module.exports = {
     hasValidProperties, 
     reservationExists,
     validPeople,
+    validDate,
+    validReservationTime,
     asyncErrorBoundary(update)
   ],
   updateStatus: [
