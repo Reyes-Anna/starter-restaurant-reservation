@@ -53,7 +53,7 @@ function SeatReservation() {
                         onChange={changeHandler}>
                         <option>-Please Select Table-</option>
                         {tables.map((table) => ( 
-                            <option value={table.table_id} key={table.name}>{table.table_name} - {table.capacity}</option>
+                            <option value={table.table_id} key={table.table_id}>{table.table_name} - {table.capacity}</option>
                         ))}
                     </select>
                 </div>
