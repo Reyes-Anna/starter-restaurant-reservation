@@ -165,7 +165,7 @@ async function list(req, res, next) {
     reservation = await service.search(mobile_number);
   } 
   else {
-    data = await service.list()
+    reservation = await service.list()
   }
   res.json({ data: reservation });
 }

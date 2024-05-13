@@ -35,7 +35,7 @@ function Dashboard({ date, setDate }) {
     }
     updateDate();
   }, [query, route, setDate]);
-  useEffect(loadDashboard, [date]);
+  useEffect(loadDashboard, [date, reservationsError]);
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -43,10 +43,12 @@ function Dashboard({ date, setDate }) {
     setTablesError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
+      .catch(setReservationsError)
+      .then("reservation error", console.log(reservationsError));
     listTables(abortController.signal)
       .then(setTables)
-      .catch(setTablesError);
+      .catch(setTablesError)
+      .then("table error",console.log(setTablesError));
     return () => abortController.abort();
   }
 
