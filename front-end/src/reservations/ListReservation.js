@@ -1,5 +1,6 @@
 import React from "react";
 import { updateStatus } from "../utils/api"
+import {Link } from "react-router-dom"
 
 function ListReservations({ reservation, setReservationsError, loadDashboard}) {
 
@@ -39,18 +40,18 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
                         Cancel
                 </button>
                 {reservation.status === "booked" &&
-                    <a 
+                    <Link 
                         href={`/reservations/${reservation.reservation_id}/edit`}
                         className="btn mx-1 px-3" >
                             Edit
-                    </a>
+                    </Link>
                 }
                 {reservation.status === "booked" &&
-                    <a 
+                    <Link 
                         href={`/reservations/${reservation.reservation_id}/seat`}
                         className="btn mx-1 px-3" >
                             Seat
-                    </a>
+                    </Link>
                 }
             </div>
         </div> 
