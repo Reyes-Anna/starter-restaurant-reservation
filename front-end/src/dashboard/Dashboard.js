@@ -37,7 +37,7 @@ function Dashboard({ date, setDate }) {
   }, [query, route, setDate]);
   useEffect(loadDashboard, [date, reservationsError]);
 
-  function loadDashboard() {
+ function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
     setTablesError(null);
