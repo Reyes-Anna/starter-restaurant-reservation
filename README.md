@@ -20,6 +20,7 @@ Periodic tables is a restaurant reservation system that allows restaurant owners
 
 * React
 * Bootstrap 4
+* CSS
 
 ### Back-End
 
