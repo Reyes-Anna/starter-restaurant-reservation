@@ -41,14 +41,14 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
                 </button>
                 {reservation.status === "booked" &&
                     <Link 
-                        href={`/reservations/${reservation.reservation_id}/edit`}
+                        to={`/reservations/${reservation.reservation_id}/edit`}
                         className="btn mx-1 px-3" >
                             Edit
                     </Link>
                 }
                 {reservation.status === "booked" &&
                     <Link 
-                        href={`/reservations/${reservation.reservation_id}/seat`}
+                        to={`/reservations/${reservation.reservation_id}/seat`}
                         className="btn mx-1 px-3" >
                             Seat
                     </Link>
