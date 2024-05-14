@@ -9,7 +9,7 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
       const message = "Do you want to cancel this reservation? This cannot be undone.";
       if (window.confirm(message)) {
         updateStatus(reservation.reservation_id, "cancelled")
-          .then(loadDashboard())
+          .then(() => loadDashboard())
           .catch(setReservationsError);
       }
     };
