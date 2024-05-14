@@ -1,16 +1,15 @@
 import React from "react";
 import { updateStatus } from "../utils/api"
-import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function ListReservations({ reservation, setReservationsError, loadDashboard}) {
-    const history = useHistory()
 
      function cancelHandler(event) {
       event.preventDefault();
       const message = "Do you want to cancel this reservation? This cannot be undone.";
       if (window.confirm(message)) {
         updateStatus(reservation.reservation_id, "cancelled")
-          .then(loadDashboard ? loadDashboard() : history.go("/search"))
+          .then(loadDashboard())
           .catch(setReservationsError);
       }
     };
