@@ -41,6 +41,7 @@ function ReservationForm({reservation, submitHandler, changeHandler}) {
                     value={reservation.mobile_number}
                     onChange={changeHandler}
                     placeholder="(XXX) XXX-XXXX"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     required
                 />
             </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import { updateStatus } from "../utils/api"
-import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function ListReservations({ reservation, setReservationsError, loadDashboard}) {
-  
+
     async function cancelHandler(event) {
         event.preventDefault();
         const abortController = new AbortController();
