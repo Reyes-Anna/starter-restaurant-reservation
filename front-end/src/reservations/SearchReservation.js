@@ -22,7 +22,6 @@ function Search() {
         setReservationSearch([])
         setMobileNumber(initalMobileNumber)
     }, [])
-
     
     const handleFind = (event) => {
         event.preventDefault()
@@ -66,7 +65,6 @@ function Search() {
                             key={reservation.reservation_id}
                             reservation={reservation}
                             setReservationsError={setNewError}
-                            refreshSearch={reservationSearch}
                             /> 
                     ))
                     : <h4>{reservationMessage}</h4>

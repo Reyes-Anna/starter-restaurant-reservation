@@ -1,8 +1,9 @@
 import React from "react";
 import { updateStatus } from "../utils/api"
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function ListReservations({ reservation, setReservationsError, loadDashboard}) {
+function ListReservations({ reservation, setReservationsError,loadDashboard}) {
+    const history= useHistory()
 
     async function cancelHandler(event) {
         event.preventDefault();
@@ -15,7 +16,7 @@ function ListReservations({ reservation, setReservationsError, loadDashboard}) {
               "cancelled",
               abortController.signal
             );
-            window.location.reload(true);
+            loadDashboard ? loadDashboard() : history.push("/dashboard")
           } catch (error) {
             if (error.name !== "AbortError") setReservationsError(error);
           }

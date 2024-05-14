@@ -29,7 +29,6 @@ function SeatReservation() {
 
     const submitHandler=(event) => {
         event.preventDefault();
-       // const abortController = new AbortController()
         seatReservation(reservation_id, selectedTable.table_id)
           .then(() => history.push("/dashboard"))
           .catch((error) => setNewError(error));
