@@ -1,26 +1,26 @@
 import React from "react";
 import { updateStatus } from "../utils/api"
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function ListReservations({ reservation, setReservationsError, loadDashboard}) {
-
-  async function cancelHandler(event) {
-    event.preventDefault();
-    const abortController = new AbortController();
-    const message = "Do you want to cancel this reservation? This cannot be undone.";
-    if (window.confirm(message)) {
-      try {
-        await updateStatus(
-          reservation.reservation_id,
-          "cancelled",
-          abortController.signal
-        );
-        window.location.reload(true);
-      } catch (error) {
-        if (error.name !== "AbortError") setReservationsError(error);
+  
+    async function cancelHandler(event) {
+        event.preventDefault();
+        const abortController = new AbortController();
+        const message = "Do you want to cancel this reservation? This cannot be undone.";
+        if (window.confirm(message)) {
+          try {
+            await updateStatus(
+              reservation.reservation_id,
+              "cancelled",
+              abortController.signal
+            );
+            window.location.reload(true);
+          } catch (error) {
+            if (error.name !== "AbortError") setReservationsError(error);
+          }
+        }
       }
-    }
-  }
 
     return (
         <div className="card mb-4" key={reservation.reservation_id}>
